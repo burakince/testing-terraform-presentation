@@ -36,7 +36,7 @@ Tools & Strategies
 
 # What is a test?
 
-<img src="http://xunitpatterns.com/Test%20Double.gif">
+![Test Double](assets/test_double.gif)
 
 <small>Reference: http://xunitpatterns.com/Test%20Double.html</small>
 
