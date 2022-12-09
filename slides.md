@@ -36,7 +36,7 @@ Tools & Strategies
 
 # What is a test?
 
-![Test Double](assets/test_double.gif)
+<img src="https://github.com/burakince/testing-terraform-presentation/blob/main/assets/test_double.gif?raw=true">
 
 <small>Reference: http://xunitpatterns.com/Test%20Double.html</small>
 
