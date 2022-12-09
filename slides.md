@@ -12,10 +12,8 @@ highlighter: shiki
 lineNumbers: false
 # some information about the slides, markdown enabled
 info: |
-  ## Slidev Starter Template
-  Presentation slides for developers.
-
-  Learn more at [Sli.dev](https://sli.dev)
+  ## Testing Terraform Code
+  Tools & Strategies
 # persist drawings in exports and build
 drawings:
   persist: false
@@ -23,381 +21,265 @@ drawings:
 css: unocss
 ---
 
-# Welcome to Slidev
+# Testing Terraform Code
 
-Presentation slides for developers
-
-<div class="pt-12">
-  <span @click="$slidev.nav.next" class="px-2 py-1 rounded cursor-pointer" hover="bg-white bg-opacity-10">
-    Press Space for next page <carbon:arrow-right class="inline"/>
-  </span>
-</div>
+Tools & Strategies
 
 <div class="abs-br m-6 flex gap-2">
-  <button @click="$slidev.nav.openInEditor()" title="Open in Editor" class="text-xl icon-btn opacity-50 !border-none !hover:text-white">
-    <carbon:edit />
-  </button>
-  <a href="https://github.com/slidevjs/slidev" target="_blank" alt="GitHub"
+  <a href="https://github.com/burakince/testing-terraform-presentation" target="_blank" alt="GitHub"
     class="text-xl icon-btn opacity-50 !border-none !hover:text-white">
     <carbon-logo-github />
   </a>
 </div>
 
-<!--
-The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
--->
+---
+
+# What is a test?
+
+<img src="http://xunitpatterns.com/Test%20Double.gif">
+
+<small>Reference: http://xunitpatterns.com/Test%20Double.html</small>
 
 ---
 
-# What is Slidev?
+# What is Infrastructure as Code (IaC)?
 
-Slidev is a slides maker and presenter designed for developers, consist of the following features
+<img src="https://content.hashicorp.com/api/assets?product=tutorials&version=main&asset=public%2Fimg%2Fterraform%2Fterraform-iac.png">
 
-- 📝 **Text-based** - focus on the content with Markdown, and then style them later
-- 🎨 **Themable** - theme can be shared and used with npm packages
-- 🧑‍💻 **Developer Friendly** - code highlighting, live coding with autocompletion
-- 🤹 **Interactive** - embedding Vue components to enhance your expressions
-- 🎥 **Recording** - built-in recording and camera view
-- 📤 **Portable** - export into PDF, PNGs, or even a hostable SPA
-- 🛠 **Hackable** - anything possible on a webpage
+<small>Reference: https://developer.hashicorp.com/terraform/tutorials/aws-get-started/infrastructure-as-code</small>
 
-<br>
-<br>
+---
 
-Read more about [Why Slidev?](https://sli.dev/guide/why)
+# IaC Testing Strategies?
 
-<!--
-You can have `style` tag in markdown to override the style for the current page.
-Learn more: https://sli.dev/guide/syntax#embedded-styles
--->
+We have two main categories for the IaC tests.
 
-<style>
-h1 {
-  background-color: #2B90B6;
-  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
-  background-size: 100%;
-  -webkit-background-clip: text;
-  -moz-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -moz-text-fill-color: transparent;
+- Test Executers
+- Target System
+
+## Test Executers
+
+We can separate test executers to again two main categories.
+
+- Logical infrastructure code/script validators.
+- Explicit testers to target system.
+
+## Target systems
+
+- Real system (Cloud provider or bare metal system)
+- Emulator system (e.g. [LocalStack](https://localstack.cloud/))
+
+---
+
+# Logical Validators
+
+These validators check for syntax errors or logical violations. Some of them doing this from <kbd>terraform plan</kbd> operation.
+
+- [Tflint](https://github.com/terraform-linters/tflint)
+- [Tfsec](https://github.com/aquasecurity/tfsec)
+- [Terrascan](https://runterrascan.io/)
+- [Checkov](https://www.checkov.io/)
+- [Terraform Compliance](https://terraform-compliance.com/)
+- [Conftest](https://www.conftest.dev/)
+
+---
+
+# Logical Validator - Tflint
+
+A Pluggable Terraform Linter
+
+<img src="https://i0.wp.com/cloudskiff.com/wp-content/uploads/2020/06/Terraform-code-quality-TFLint-Security-group-ID.png?w=622&ssl=1">
+
+<small>Reference: https://cloudskiff.com/terraform-code-quality/</small>
+
+---
+
+# Logical Validator - Tfsec
+
+tfsec uses static analysis of your terraform code to spot potential misconfigurations.
+
+<img class="w-100" src="https://github.com/aquasecurity/tfsec/blob/master/screenshot.png?raw=true">
+
+---
+
+# Logical Validator - Terrascan
+
+Terrascan is a static code analyzer for Infrastructure as Code.
+
+<img class="w-120" src="https://user-images.githubusercontent.com/74685902/105115731-32d2ff80-5a7e-11eb-93b0-2f0620eb1295.png">
+
+---
+
+# Logical Validator - Checkov
+
+Checkov is a static code analysis tool for infrastructure as code (IaC) and also a software composition analysis (SCA) tool for images and open source packages.
+
+<img class="w-120" src="https://raw.githubusercontent.com/bridgecrewio/checkov/master/docs/checkov-recording.gif">
+
+---
+
+# Logical Validator - Terraform Compliance
+
+terraform-compliance is a lightweight, security and compliance focused test framework against terraform to enable negative testing capability for your infrastructure-as-code.
+
+<img class="w-100" src="https://github.com/eerkunt/terraform-compliance/raw/master/terraform-compliance-demo.gif?raw=true">
+
+---
+
+# Logical Validator - Conftest
+
+Conftest helps you write tests against structured configuration data.
+
+---
+
+# Logical Validator - Conftest 1
+
+[terraform.tf](https://github.com/open-policy-agent/conftest/blob/master/examples/hcl2/terraform.tf)
+
+```hcl
+resource "aws_security_group_rule" "my-rule" {
+  type        = "ingress"
+  cidr_blocks = ["0.0.0.0/0"]
 }
-</style>
 
-<!--
-Here is another comment.
--->
-
----
-
-# Navigation
-
-Hover on the bottom-left corner to see the navigation's controls panel, [learn more](https://sli.dev/guide/navigation.html)
-
-### Keyboard Shortcuts
-
-|     |     |
-| --- | --- |
-| <kbd>right</kbd> / <kbd>space</kbd>| next animation or slide |
-| <kbd>left</kbd>  / <kbd>shift</kbd><kbd>space</kbd> | previous animation or slide |
-| <kbd>up</kbd> | previous slide |
-| <kbd>down</kbd> | next slide |
-
-<!-- https://sli.dev/guide/animations.html#click-animations -->
-<img
-  v-click
-  class="absolute -bottom-9 -left-7 w-80 opacity-50"
-  src="https://sli.dev/assets/arrow-bottom-left.svg"
-/>
-<p v-after class="absolute bottom-23 left-45 opacity-30 transform -rotate-10">Here!</p>
-
----
-layout: image-right
-image: https://source.unsplash.com/collection/94734566/1920x1080
----
-
-# Code
-
-Use code snippets and get the highlighting directly![^1]
-
-```ts {all|2|1-6|9|all}
-interface User {
-  id: number
-  firstName: string
-  lastName: string
-  role: string
+resource "aws_alb_listener" "my-alb-listener" {
+  port     = "80"
+  protocol = "HTTP"
 }
 
-function updateUser(id: number, update: User) {
-  const user = getUser(id)
-  const newUser = { ...user, ...update }
-  saveUser(id, newUser)
+resource "aws_db_security_group" "my-group" {
+
 }
-```
 
-<arrow v-click="3" x1="400" y1="420" x2="230" y2="330" color="#564" width="3" arrowSize="1" />
-
-[^1]: [Learn More](https://sli.dev/guide/syntax.html#line-highlighting)
-
-<style>
-.footnotes-sep {
-  @apply mt-20 opacity-10;
-}
-.footnotes {
-  @apply text-sm opacity-75;
-}
-.footnote-backref {
-  display: none;
-}
-</style>
-
----
-
-# Components
-
-<div grid="~ cols-2 gap-4">
-<div>
-
-You can use Vue components directly inside your slides.
-
-We have provided a few built-in components like `<Tweet/>` and `<Youtube/>` that you can use directly. And adding your custom components is also super easy.
-
-```html
-<Counter :count="10" />
-```
-
-<!-- ./components/Counter.vue -->
-<Counter :count="10" m="t-4" />
-
-Check out [the guides](https://sli.dev/builtin/components.html) for more.
-
-</div>
-<div>
-
-```html
-<Tweet id="1390115482657726468" />
-```
-
-<Tweet id="1390115482657726468" scale="0.65" />
-
-</div>
-</div>
-
-<!--
-Presenter note with **bold**, *italic*, and ~~striked~~ text.
-
-Also, HTML elements are valid:
-<div class="flex w-full">
-  <span style="flex-grow: 1;">Left content</span>
-  <span>Right content</span>
-</div>
--->
-
-
----
-class: px-20
----
-
-# Themes
-
-Slidev comes with powerful theming support. Themes can provide styles, layouts, components, or even configurations for tools. Switching between themes by just **one edit** in your frontmatter:
-
-<div grid="~ cols-2 gap-2" m="-t-2">
-
-```yaml
----
-theme: default
----
-```
-
-```yaml
----
-theme: seriph
----
-```
-
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-default/01.png?raw=true">
-
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-seriph/01.png?raw=true">
-
-</div>
-
-Read more about [How to use a theme](https://sli.dev/themes/use.html) and
-check out the [Awesome Themes Gallery](https://sli.dev/themes/gallery.html).
-
----
-preload: false
----
-
-# Animations
-
-Animations are powered by [@vueuse/motion](https://motion.vueuse.org/).
-
-```html
-<div
-  v-motion
-  :initial="{ x: -80 }"
-  :enter="{ x: 0 }">
-  Slidev
-</div>
-```
-
-<div class="w-60 relative mt-6">
-  <div class="relative w-40 h-40">
-    <img
-      v-motion
-      :initial="{ x: 800, y: -100, scale: 1.5, rotate: -50 }"
-      :enter="final"
-      class="absolute top-0 left-0 right-0 bottom-0"
-      src="https://sli.dev/logo-square.png"
-    />
-    <img
-      v-motion
-      :initial="{ y: 500, x: -100, scale: 2 }"
-      :enter="final"
-      class="absolute top-0 left-0 right-0 bottom-0"
-      src="https://sli.dev/logo-circle.png"
-    />
-    <img
-      v-motion
-      :initial="{ x: 600, y: 400, scale: 2, rotate: 100 }"
-      :enter="final"
-      class="absolute top-0 left-0 right-0 bottom-0"
-      src="https://sli.dev/logo-triangle.png"
-    />
-  </div>
-
-  <div
-    class="text-5xl absolute top-14 left-40 text-[#2B90B6] -z-1"
-    v-motion
-    :initial="{ x: -80, opacity: 0}"
-    :enter="{ x: 0, opacity: 1, transition: { delay: 2000, duration: 1000 } }">
-    Slidev
-  </div>
-</div>
-
-<!-- vue script setup scripts can be directly used in markdown, and will only affects current page -->
-<script setup lang="ts">
-const final = {
-  x: 0,
-  y: 0,
-  rotate: 0,
-  scale: 1,
-  transition: {
-    type: 'spring',
-    damping: 10,
-    stiffness: 20,
-    mass: 2
+resource "azurerm_managed_disk" "source" {
+  encryption_settings {
+    enabled = false
   }
 }
-</script>
-
-<div
-  v-motion
-  :initial="{ x:35, y: 40, opacity: 0}"
-  :enter="{ y: 0, opacity: 1, transition: { delay: 3500 } }">
-
-[Learn More](https://sli.dev/guide/animations.html#motion)
-
-</div>
-
----
-
-# LaTeX
-
-LaTeX is supported out-of-box powered by [KaTeX](https://katex.org/).
-
-<br>
-
-Inline $\sqrt{3x-1}+(1+x)^2$
-
-Block
-$$
-\begin{array}{c}
-
-\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} &
-= \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} & = 4 \pi \rho \\
-
-\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}} \\
-
-\nabla \cdot \vec{\mathbf{B}} & = 0
-
-\end{array}
-$$
-
-<br>
-
-[Learn more](https://sli.dev/guide/syntax#latex)
-
----
-
-# Diagrams
-
-You can create diagrams / graphs from textual descriptions, directly in your Markdown.
-
-<div class="grid grid-cols-3 gap-10 pt-4 -mb-6">
-
-```mermaid {scale: 0.5}
-sequenceDiagram
-    Alice->John: Hello John, how are you?
-    Note over Alice,John: A typical interaction
 ```
 
-```mermaid {theme: 'neutral', scale: 0.8}
-graph TD
-B[Text] --> C{Decision}
-C -->|One| D[Result 1]
-C -->|Two| E[Result 2]
+---
+
+# Logical Validator - Conftest 2
+
+[policy/deny.rego](https://github.com/open-policy-agent/conftest/blob/master/examples/hcl2/policy/deny.rego)
+
+```go
+package main
+
+has_field(obj, field) {
+	obj[field]
+}
+
+deny[msg] {
+	proto := input.resource.aws_alb_listener[lb].protocol
+	proto == "HTTP"
+	msg = sprintf("ALB `%v` is using HTTP rather than HTTPS", [lb])
+}
+
+deny[msg] {
+	rule := input.resource.aws_security_group_rule[name]
+	rule.type == "ingress"
+	contains(rule.cidr_blocks[_], "0.0.0.0/0")
+	msg = sprintf("ASG `%v` defines a fully open ingress", [name])
+}
+
+deny[msg] {
+	disk = input.resource.azurerm_managed_disk[name]
+	has_field(disk, "encryption_settings")
+	disk.encryption_settings.enabled != true
+	msg = sprintf("Azure disk `%v` is not encrypted", [name])
+}
 ```
 
-```plantuml {scale: 0.7}
-@startuml
+---
 
-package "Some Group" {
-  HTTP - [First Component]
-  [Another Component]
+# Logical Validator - Conftest 3
+
+[policy/deny_test.rego](https://github.com/open-policy-agent/conftest/blob/master/examples/hcl2/policy/deny_test.rego)
+
+```go
+package main
+
+empty(value) {
+	count(value) == 0
 }
 
-node "Other Groups" {
-  FTP - [Second Component]
-  [First Component] --> FTP
+no_violations {
+	empty(deny)
 }
 
-cloud {
-  [Example 1]
+test_blank_input {
+	no_violations with input as {}
 }
 
-
-database "MySql" {
-  folder "This is my folder" {
-    [Folder 3]
-  }
-  frame "Foo" {
-    [Frame 4]
-  }
+test_correctly_encrypted_azure_disk {
+	no_violations with input as {"resource": {"azurerm_managed_disk": {"sample": {"encryption_settings": {"enabled": true}}}}}
 }
 
-
-[Another Component] --> [Example 1]
-[Example 1] --> [Folder 3]
-[Folder 3] --> [Frame 4]
-
-@enduml
+test_fails_with_http_alb {
+	cfg := parse_config("hcl2", `
+		resource "aws_alb_listener" "name" {
+			protocol = "HTTP"
+		}
+	`)
+	deny["ALB `name` is using HTTP rather than HTTPS"] with input as cfg
+}
 ```
 
-</div>
+---
 
-[Learn More](https://sli.dev/guide/syntax.html#diagrams)
+# Explicit Testers
+
+These testers run IaC to the target system with the test parameters and compare the actual system states with the expected ones.
+
+- [Terratest](https://terratest.gruntwork.io/)
+- [Kitchen-Terraform](https://github.com/newcontext-oss/kitchen-terraform)
 
 ---
-src: ./pages/multiple-entries.md
-hide: false
+
+# Explicit Testers - Terratest
+
+Terratest is a Go library developed by Gruntwork that helps you create and automate tests for your IaC written with Terraform, Packer for IaaS providers like Azure, Amazon, Google, or for a Kubernetes cluster. [Terraform Azure Example](https://github.com/gruntwork-io/terratest/tree/master/examples/azure/terraform-azure-example)
+
+[terraform_azure_example_test.go](https://github.com/gruntwork-io/terratest/blob/master/test/azure/terraform_azure_example_test.go)
+
+```go {all|1|2|4-6|8|10|12-13|15-17|all}
+func TestTerraformAzureExample(t *testing.T) {
+	t.Parallel()
+
+	terraformOptions := &terraform.Options{
+		TerraformDir: "../../examples/azure/terraform-azure-example",
+	}
+
+	defer terraform.Destroy(t, terraformOptions)
+
+	terraform.InitAndApply(t, terraformOptions)
+
+	vmName := terraform.Output(t, terraformOptions, "vm_name")
+	resourceGroupName := terraform.Output(t, terraformOptions, "resource_group_name")
+
+	actualVMSize := azure.GetSizeOfVirtualMachine(t, vmName, resourceGroupName, "")
+	expectedVMSize := compute.VirtualMachineSizeTypes("Standard_B1s")
+	assert.Equal(t, expectedVMSize, actualVMSize)
+}
+```
+
 ---
+
+# Explicit Testers - Kitchen Terraform
+
+Kitchen-Terraform provides a set of [Kitchen](https://kitchen.ci/index.html) plugins which enable the use of Kitchen to converge a Terraform configuration and verify the resulting infrastructure systems with InSpec controls.
+
+## What is Test Kitchen?
+
+Test Kitchen provides a test harness to execute infrastructure code on one or more platforms in isolation.
 
 ---
 layout: center
 class: text-center
 ---
 
-# Learn More
+# Thanks
 
-[Documentations](https://sli.dev) · [GitHub](https://github.com/slidevjs/slidev) · [Showcases](https://sli.dev/showcases.html)
+[GitHub](https://github.com/burakince) · [Website](https://burakince.net)
