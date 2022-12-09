@@ -37,7 +37,7 @@ jobs:
       - name: Build production bundle
         uses: borales/actions-yarn@v4
         with:
-          cmd: build
+          cmd: build --base testing-terraform-presentation
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
